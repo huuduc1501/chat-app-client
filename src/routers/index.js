@@ -7,6 +7,7 @@ import ChatLog from '../pages/ChatLog'
 import Container from '../styles/Container'
 
 import socketClient from 'socket.io-client'
+import Home from '../pages/Home'
 
 
 const Index = () => {
@@ -15,10 +16,10 @@ const Index = () => {
 
     useEffect(() => {
         if (!socket.current) {
-            socket.current = socketClient('http://localhost:5000',{
-                autoConnect:true
+            socket.current = socketClient('http://localhost:5000', {
+                autoConnect: true
             })
-            
+
             setConnected(true)
             console.log('socket connect')
         }
@@ -34,7 +35,7 @@ const Index = () => {
                         {connected ? <ChatLog socket={socket.current} /> : null}
                     </Route>
                     <Route path='/'>
-                        <h1>home</h1>
+                        <Home />
                     </Route>
                 </Switch>
             </Container>
