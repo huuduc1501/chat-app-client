@@ -89,7 +89,7 @@ const ChatLog = ({ socket }) => {
         // socket.connect()
         socket.emit('join', groupId)
         console.log('join')
-        socket.on(`newMessage${groupId}`, newMess => {
+        socket.on(`newMessage`, newMess => {
             dispatch(addNewMess(newMess))
             if (scrollBarRef.current)
                 scrollBarRef.current.scrollTop = scrollBarRef.current.scrollHeight
@@ -101,6 +101,7 @@ const ChatLog = ({ socket }) => {
 
 
     const handleSendMess = async (e) => {
+        console.log('send')
         const { data: newMess } = await client(`/groupChat/${groupId}`, { body: { message: messInput.value } })
         socket.emit('newMessage', newMess)
         messInput.setValue('')

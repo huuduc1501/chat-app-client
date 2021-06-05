@@ -5,7 +5,7 @@ export const client = async (endPoint, { body, ...customConfig } = {}) => {
     const token = localStorage.getItem('token')
     const method = (() => {
         if (customConfig.method) {
-            return customConfig.method
+            return  customConfig.method
         } else if (body) return 'post'
         else return 'get'
     })()
@@ -31,10 +31,8 @@ export const authenticate = async (type, data) => {
         const { data: token } = await client(`/auth/${type}`, {
             body: data
         })
-        console.log(token)
         if (token) {
             const { data: user } = await client('/auth/me', { token })
-            console.log(user)
             localStorage.setItem('token', token)
             return { success: true, data: { ...user, token } }
         }
