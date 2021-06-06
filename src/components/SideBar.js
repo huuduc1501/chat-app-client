@@ -31,8 +31,9 @@ const SideBar = () => {
     const { isFetching, data: user } = useSelector(state => state.user)
     const dispatch = useDispatch()
     useEffect(() => {
-        dispatch(getMe())
-    }, [dispatch])
+        if (isFetching)
+            dispatch(getMe())
+    }, [dispatch,isFetching])
     const { pathname } = useLocation()
     const groupId = pathname.slice(7)
 
