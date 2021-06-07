@@ -8,21 +8,13 @@ import { darkTheme } from './styles/theme'
 import Auth from './components/Auth'
 import RootRouter from './routers/index'
 import "react-toastify/dist/ReactToastify.css"
-import { useDispatch, useSelector } from 'react-redux';
-import { getMe } from './reducers/user';
+import {useSelector } from 'react-redux';
 
 
 dotenv.config()
 
 const App = () => {
-
-    // const dispatch = useDispatch()
-    const { isFetching, data: user } = useSelector(state => state.user)
-    // useEffect(() => {
-    //     if (!user.email && user.token) {
-    //         dispatch(getMe())
-    //     }
-    // }, [dispatch, user.email, user.token])
+    const { data: user } = useSelector(state => state.user)
 
     return (
         <ThemeProvider theme={darkTheme}>

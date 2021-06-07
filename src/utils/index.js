@@ -5,7 +5,7 @@ export const client = async (endPoint, { body, ...customConfig } = {}) => {
     const token = localStorage.getItem('token')
     const method = (() => {
         if (customConfig.method) {
-            return  customConfig.method
+            return customConfig.method
         } else if (body) return 'post'
         else return 'get'
     })()
@@ -21,7 +21,7 @@ export const client = async (endPoint, { body, ...customConfig } = {}) => {
             return status >= 100 && status < 599
         }
     })
-    const { data } = await clientInstance.request(endPoint, { data: body })
+    const { data } = await clientInstance(endPoint, { data: body })
     if (!data.success)
         return toast(data.message)
     return data
@@ -40,3 +40,35 @@ export const authenticate = async (type, data) => {
         console.log(err)
     }
 }
+
+export const upload = async (resourceType, file) => {
+    const formData = new FormData();
+    formData.append("upload_preset", "unsign_1");
+    formData.append("file", file);
+    console.log(formData)
+    let toastId = null;
+    const config = {
+      onUploadProgress: (p) => {
+        const progress = p.loaded / p.total;
+        if (toastId === null) {
+          toastId = toast("Đang tải file lên!", {
+            progress,
+          });
+        } else {
+          toast.update(toastId, {
+            progress,
+          });
+        }
+      },
+    };
+  
+    const { data } = await axios.post(
+      `${process.env.REACT_APP_CLOUDINARY_ENDPOINT}/${resourceType}/upload`,
+      formData,
+      config
+    );
+  
+    toast.dismiss(toastId);
+  
+    return data.secure_url;
+  };

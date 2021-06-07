@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components'
 import { toast } from 'react-toastify'
 import { useDispatch } from 'react-redux'
 
 import useInput from '../hooks/useInput'
 import { signup } from '../reducers/user'
+import { upload } from '../utils';
 
 export const StyledAuth = styled.div`
     width: 350px;
@@ -41,9 +42,22 @@ export const StyledAuth = styled.div`
         text-transform: uppercase;
     }
 
+    label {
+        margin: 1rem auto;
+
+    }
+    img {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        object-fit: cover;
+        cursor: pointer;
+    }
+
 `
 
 const Signup = ({ setAuth }) => {
+    const [avatar, setAvatar] = useState('https://res.cloudinary.com/dpmxnehes/image/upload/v1622450374/chat-app/avatar_gw4qvc.png')
     const dispatch = useDispatch()
 
     const username = useInput('')
@@ -73,14 +87,31 @@ const Signup = ({ setAuth }) => {
             username: username.value,
             password: password.value,
             email: email.value,
+            avatar,
         }
 
         dispatch(signup({ payload }))
+        toast.dark('Thành công')
+    }
+
+    const handleAvatar = async e => {
+        const file = e.target.files[0]
+        console.log(file)
+        if (file) {
+            setAvatar(await upload('image', file))
+        }
     }
     return (
         <StyledAuth>
             <h2>Đăng kí</h2>
             <form onSubmit={handleSubmit}>
+                <div>
+                    <label for='avatar-up'>
+                        <img src={avatar} alt='avatar' />
+                    </label>
+                    <input type='file' id='avatar-up' accept='image/*' onChange={handleAvatar} style={{ display: 'none' }} />
+                </div>
+
                 <input type='text' placeholder='Tên người dùng' value={username.value} onChange={username.onChange} />
                 <input type='password' placeholder='Mật khẩu' value={password.value} onChange={password.onChange} />
                 <input type='password' placeholder='Nhập lại mật khẩu' value={rePassword.value} onChange={rePassword.onChange} />

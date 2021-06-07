@@ -47,7 +47,8 @@ const MessageWrap = styled.div`
         margin-right: 1rem;
     }
     .content span{ 
-        color:${props => props.theme.darkGrey};
+        color:#d1b2b2;
+        margin-right: 1rem;
     }
     .content p {
         margin-top: .5rem;
@@ -70,7 +71,11 @@ const InputChat = styled.div`
     button {
         position:absolute;
         right:3rem;
-        margin-top: 5px;
+        padding:.3rem .5rem;
+        border-radius: 4px;
+        background: ${props => props.theme.yellow};
+        margin-top: 3px;
+        border: none;
     }
 `
 
@@ -89,15 +94,19 @@ const ChatLog = ({ socket }) => {
         // socket.connect()
         socket.emit('join', groupId)
         console.log('join')
+
+        return () => socket.off('newMessage')
+
+    }, [socket, groupId])
+    useEffect(() => {
         socket.on(`newMessage`, newMess => {
+            console.log(newMess.message)
             dispatch(addNewMess(newMess))
             if (scrollBarRef.current)
                 scrollBarRef.current.scrollTop = scrollBarRef.current.scrollHeight
 
         })
-        // return socket.disconnect()
-
-    }, [socket, groupId, dispatch])
+    }, [dispatch, socket])
 
 
     const handleSendMess = async (e) => {
