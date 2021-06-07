@@ -28,7 +28,8 @@ const userSlice = createSlice({
     },
     reducers: {
         logout(state, action) {
-            state = {}
+            state.data = {}
+            state.isFetching = true
             localStorage.removeItem('token')
         },
         addGroup(state, action) {

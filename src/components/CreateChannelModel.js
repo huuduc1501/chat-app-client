@@ -5,6 +5,7 @@ import styled, { keyframes } from 'styled-components'
 import useInput from '../hooks/useInput'
 import { client } from '../utils';
 import { addGroup } from '../reducers/user'
+import { toast } from 'react-toastify';
 
 const openModel = keyframes`
     from{
@@ -76,6 +77,8 @@ const CreateChannelModel = ({ setOpen }) => {
         // }
         dispatch(addGroup(group))
         setOpen(false)
+        if (group)
+            toast('tạo thành công!')
     }
     return (
         <CreateChannelWrap>

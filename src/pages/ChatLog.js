@@ -33,6 +33,7 @@ const ChatLogWrap = styled.div`
         background: #555;
     }
 
+
 `
 const MessageWrap = styled.div`
     width: 75%;
@@ -53,6 +54,7 @@ const MessageWrap = styled.div`
     .content p {
         margin-top: .5rem;
     }
+
     /* ${props => props.isMine && css`
         justify-content: flex-end;
         margin-left: 25%;
@@ -67,16 +69,18 @@ const InputChat = styled.div`
     input {
         width:100%;
         padding: .4rem 4rem .4rem 1rem;
+        border-radius: 4px;
     }
     button {
         position:absolute;
-        right:3rem;
+        right:2.3rem;
         padding:.3rem .5rem;
         border-radius: 4px;
         background: ${props => props.theme.yellow};
         margin-top: 3px;
         border: none;
     }
+
 `
 
 const ChatLog = ({ socket }) => {
